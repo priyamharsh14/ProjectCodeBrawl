@@ -1,0 +1,357 @@
+{% load static %}
+{% load markdown_deux_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>CodeBrawl 2.0</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+	<link href="{% static 'css/quiz.css' %}" rel="stylesheet">
+	<link href="{% static 'css/materialize.css' %}" rel="stylesheet">
+	<script src="{% static 'js/materialize.js' %}"></script>
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+</head>
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Ubuntu', sans-serif;
+}
+.button-label {
+  display: inline-block;
+  padding: 1em 2em;
+  margin: 0.5em;
+  cursor: pointer;
+  color: #292929;
+  border-radius: 0.25em;
+  background: #efefef;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.22);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  -webkit-user-select: none;
+	 -moz-user-select: none;
+	  -ms-user-select: none;
+		  user-select: none;
+}
+.button-label h1 {
+  font-size: 1em;
+  font-family: "Lato", sans-serif;
+}
+.button-label:hover {
+  background: #d6d6d6;
+  color: #101010;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0 -3px 0 rgba(0, 0, 0, 0.32);
+}
+.button-label:active {
+  -webkit-transform: translateY(2px);
+		  transform: translateY(2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2), inset 0px -1px 0 rgba(0, 0, 0, 0.22);
+}
+@media (max-width: 40em) {
+  .button-label {
+	padding: 0em 1em 3px;
+	margin: 0.25em;
+  }
+}
+
+#maybe-button1:checked + .button-label {
+  background: #4183D7;
+  color: #efefef;
+}
+#maybe-button1:checked + .button-label:hover {
+  background: #2c75d2;
+  color: #e2e2e2;
+}
+
+#maybe-button2:checked + .button-label {
+  background: #4183D7;
+  color: #efefef;
+}
+#maybe-button2:checked + .button-label:hover {
+  background: #2c75d2;
+  color: #e2e2e2;
+}
+
+#maybe-button3:checked + .button-label {
+  background: #4183D7;
+  color: #efefef;
+}
+#maybe-button3:checked + .button-label:hover {
+  background: #2c75d2;
+  color: #e2e2e2;
+}
+
+#maybe-button4:checked + .button-label {
+  background: #4183D7;
+  color: #efefef;
+}
+#maybe-button4:checked + .button-label:hover {
+  background: #2c75d2;
+  color: #e2e2e2;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+<body style="background: #667db6; background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6); background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);">
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <script>M.toast({html: "{{message}}", classes: 'red rounded', displayLength:10000});</script>
+        {% endif %}
+        {% if message.tags == 'success' %}
+            <script>M.toast({html: "{{message}}", classes: 'green rounded', displayLength:5000});</script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-12 col-md-9">
+				<div class="card o-hidden border-0 shadow-lg my-5" style="background: rgb(0,0,0,0.7);">
+					<div class="card-body p-0">
+						<div class="row">
+							<div class="col-lg-10" style="width: 80%; margin: 0 auto;">
+								<div class="p-3" style="color: #ffffff;">
+{% if request.user.is_authenticated %}
+	<center>Welcome, {{ request.user.username }}</center>
+	<br><br>
+	{% if 'cat' in request.GET %}
+		{% if request.GET.cat == 'easy' %}
+			{% if 'q' in request.GET and request.GET.q in '12345'|make_list %}
+			{% if request.GET.q == '1' %}
+				<center><h1>EASY LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (25 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.easy.1.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.easy.1.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.easy.1.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.easy.1.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.easy.1.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% elif request.GET.q == '2' %}
+				<center><h1>EASY LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (25 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.easy.2.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.easy.2.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.easy.2.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.easy.2.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.easy.2.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% elif request.GET.q == '3' %}
+				<center><h1>EASY LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (25 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.easy.3.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.easy.3.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.easy.3.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.easy.3.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.easy.3.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% elif request.GET.q == '4' %}
+				<center><h1>EASY LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (25 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.easy.4.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.easy.4.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.easy.4.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.easy.4.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.easy.4.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% elif request.GET.q == '5' %}
+				<center><h1>EASY LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (25 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.easy.5.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.easy.5.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.easy.5.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.easy.5.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.easy.5.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% endif %}
+			{% else %}
+				<center><h1>EASY LEVEL</h1></center><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy&q=1"><button class="btn btn-primary btn-user btn-block">Question 1</button></a><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy&q=2"><button class="btn btn-primary btn-user btn-block">Question 2</button></a><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy&q=3"><button class="btn btn-primary btn-user btn-block">Question 3</button></a><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy&q=4"><button class="btn btn-primary btn-user btn-block">Question 4</button></a><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy&q=5"><button class="btn btn-primary btn-user btn-block">Question 5</button></a><br>
+				<br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% endif %}
+		{% elif request.GET.cat == 'medium' %}
+			{% if 'q' in request.GET and request.GET.q in '123'|make_list %}
+			{% if request.GET.q == '1' %}
+				<center><h1>MEDIUM LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (50 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.medium.1.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.medium.1.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.medium.1.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.medium.1.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.medium.1.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=medium"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% elif request.GET.q == '2' %}
+				<center><h1>MEDIUM LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (50 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.medium.2.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.medium.2.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.medium.2.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.medium.2.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.medium.2.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=medium"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% elif request.GET.q == '3' %}
+				<center><h1>MEDIUM LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (50 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.medium.3.question|markdown|linebreaksbr }}</div>
+				<div style="font-size: 20px;">Choose your option:</div><br>
+				<form method="POST">
+					{% csrf_token %}
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button1" value="a" required/>
+					<label class="button-label" for="maybe-button1"><h1>{{ qbank.medium.3.options.0 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button2" value="b"/>
+					<label class="button-label" for="maybe-button2"><h1>{{ qbank.medium.3.options.1 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button3" value="c"/>
+					<label class="button-label" for="maybe-button3"><h1>{{ qbank.medium.3.options.2 }}</h1></label>
+					<input class="hidden radio-label" type="radio" name="option" id="maybe-button4" value="d"/>
+					<label class="button-label" for="maybe-button4"><h1>{{ qbank.medium.3.options.3 }}</h1></label>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=medium"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% endif %}
+			{% else %}
+				<center><h1>MEDIUM LEVEL</h1></center><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=medium&q=1"><button class="btn btn-primary btn-user btn-block">Question 1</button></a><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=medium&q=2"><button class="btn btn-primary btn-user btn-block">Question 2</button></a><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=medium&q=3"><button class="btn btn-primary btn-user btn-block">Question 3</button></a><br>
+				<br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% endif %}
+		{% elif request.GET.cat == 'hard' %}
+			{% if 'q' in request.GET and request.GET.q in '12'|make_list %}
+			{% if request.GET.q == '1' %}
+				<center><h1>HARD LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (Max: 100 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.hard.1.question|markdown|linebreaksbr }}</div>
+				<form method="POST">
+					{% csrf_token %}
+					<textarea name="option" style="overflow: auto; width: 100%; min-height: 50vh;" required></textarea>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=hard"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% elif request.GET.q == '2' %}
+				<center><h1>HARD LEVEL</h1></center><br>
+				<center>Question {{ request.GET.q }} (Max: 100 points)</center><br>
+				<div style="font-size: 20px;">{{ qbank.hard.2.question|markdown|linebreaksbr }}</div>
+				<form method="POST">
+					{% csrf_token %}
+					<textarea name="option" style="overflow: auto; width: 100%; min-height: 50vh;" required></textarea>
+					<br><br><center>Note: Once you submit your answer, you won't be able to modify it.</center>
+					<br><button class="btn btn-primary btn-user btn-block">Submit</button><br>
+				</form>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=hard"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% endif %}
+			{% else %}
+				<center><h1>HARD LEVEL</h1></center><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=hard&q=1"><button class="btn btn-primary btn-user btn-block">Question 1</button></a><br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=hard&q=2"><button class="btn btn-primary btn-user btn-block">Question 2</button></a><br>
+				<br>
+				<a href="/2234525801ee2c016d6fa3ba5a44f71d"><button class="btn btn-primary btn-user btn-block">Go Back</button></a><br>
+			{% endif %}
+		{% endif %}
+	{% else %}
+	<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=easy"><button class="btn btn-primary btn-user btn-block">Easy Level ({{ solved_easy }}/5 solved)</button></a><br>
+	<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=medium"><button class="btn btn-primary btn-user btn-block">Medium Level ({{ solved_medium }}/3 solved)</button></a><br>
+	<a href="/2234525801ee2c016d6fa3ba5a44f71d?cat=hard"><button class="btn btn-primary btn-user btn-block">Hard Level ({{ solved_hard }}/2 solved)</button></a><br><br>
+	<center>Note: Once you click this "Final Submit Button", your answers will be submitted for final assessment. You won't be able to modify your answers and you will be redirected to your result page.</center><br>
+	<a href="/result"><button class="btn btn-primary btn-user btn-block">Final Submit Button</button></a><br>
+	<a href="/logout"><button class="btn btn-primary btn-user btn-block">Logout</button></a><br><br>
+	{% endif %}
+{% endif %}
+<div style="text-align: center; font-size: 25px;" id="deadline"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+var _0x2692=['getElementById','deadline','innerHTML','getTime','remove','floor','location','apr\x2008,\x202020\x2021:00:00'];(function(_0x512c5c,_0x26920e){var _0x41cd83=function(_0xbd8263){while(--_0xbd8263){_0x512c5c['push'](_0x512c5c['shift']());}};_0x41cd83(++_0x26920e);}(_0x2692,0x1b9));var _0x41cd=function(_0x512c5c,_0x26920e){_0x512c5c=_0x512c5c-0x0;var _0x41cd83=_0x2692[_0x512c5c];return _0x41cd83;};var deadline=new Date(_0x41cd('0x6'))[_0x41cd('0x2')]();var x=setInterval(function(){var _0x47ac70=new Date()[_0x41cd('0x2')]();var _0x160c97=deadline-_0x47ac70;var _0x3461b4=Math[_0x41cd('0x4')](_0x160c97/(0x3e8*0x3c*0x3c*0x18));var _0xd9f6b4=Math[_0x41cd('0x4')](_0x160c97%(0x3e8*0x3c*0x3c*0x18)/(0x3e8*0x3c*0x3c));var _0x557108=Math['floor'](_0x160c97%(0x3e8*0x3c*0x3c)/(0x3e8*0x3c));var _0x3eb8b7=Math[_0x41cd('0x4')](_0x160c97%(0x3e8*0x3c)/0x3e8);document['getElementById'](_0x41cd('0x0'))[_0x41cd('0x1')]=_0xd9f6b4+'h\x20'+_0x557108+'m\x20'+_0x3eb8b7+'s\x20';if(_0x160c97<0x0){clearInterval(x);document[_0x41cd('0x7')](_0x41cd('0x0'))[_0x41cd('0x3')]();window[_0x41cd('0x5')]='/result';}},0x3e8);
+</script>
+</body>
+</html>

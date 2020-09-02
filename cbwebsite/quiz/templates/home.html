@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+	<title>CodeBrawl 2.0</title>
+	<link href="{% static 'css/w3.css' %}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+	<link href="{% static 'css/materialize.css' %}" rel="stylesheet">
+	<script src="{% static 'js/materialize.js' %}"></script>
+<style>
+body,h1 {font-family: "Ubuntu", sans-serif}
+body, html {height: 100%}
+.bgimg {
+	background-image: url("{% static 'img/homeback.jpg' %}");
+	min-height: 100%;
+	background-position: center;
+	background-size: cover;
+}
+</style>
+</head>
+<body>
+{% if messages %}
+	{% for message in messages %}
+		{% if message.tags == 'error' %}
+			<script>M.toast({html: "{{message}}", classes: 'red rounded', displayLength:10000});</script>
+		{% endif %}
+		{% if message.tags == 'success' %}
+			<script>M.toast({html: "{{message}}", classes: 'green rounded', displayLength:5000});</script>
+		{% endif %}
+	{% endfor %}
+{% endif %}
+	<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+		<div class="w3-display-middle" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); background: rgb(0,0,0,0.7); border-radius: 10px; width: 80%;">
+			<br>
+				<img src="{% static 'img/logo.png' %}" style="width: 100%;">
+			<br><br>
+			<hr class="w3-border-grey" style="margin:auto;width:40%">
+			<br>
+			<div style="text-align: center; font-size: 25px;" id="countdown"></div>
+			<div style="display: none; font-size: 25px; text-align: center;" id="b7c2506678e5cfcd7c8f6c76ad787896"><a href="/b7c2506678e5cfcd7c8f6c76ad787896" style="text-decoration: none;">Login</a></div>
+			<br>
+			<hr class="w3-border-grey" style="margin:auto;width:40%">
+			<a href="/register" style="text-decoration: none;"><p class="w3-large w3-center">Register [CLOSED]</p></a>
+			<hr class="w3-border-grey" style="margin:auto;width:40%">
+			<a href="/leaderboard" style="text-decoration: none;"><p class="w3-large w3-center">Leaderboard</p></a>
+			<hr class="w3-border-grey" style="margin:auto;width:40%">
+			<br>
+		</div>
+		<div class="w3-display-bottomleft w3-padding-large">
+			Made with ❤️ by <a href="https://twitter.com/PriyamHarsh14">Priyam Harsh</a>
+		</div>
+	</div>
+<script> 
+var _0xc852=['b7c2506678e5cfcd7c8f6c76ad787896','innerHTML','getElementById','style','countdown','apr\x2008,\x202020\x2020:00:00','remove','floor','display'];(function(_0x48ca67,_0xc85212){var _0x485a1c=function(_0x45fae5){while(--_0x45fae5){_0x48ca67['push'](_0x48ca67['shift']());}};_0x485a1c(++_0xc85212);}(_0xc852,0x196));var _0x485a=function(_0x48ca67,_0xc85212){_0x48ca67=_0x48ca67-0x0;var _0x485a1c=_0xc852[_0x48ca67];return _0x485a1c;};var deadline=new Date(_0x485a('0x4'))['getTime']();var x=setInterval(function(){var _0x3d93a9=new Date()['getTime']();var _0x33d697=deadline-_0x3d93a9;var _0x3eb200=Math[_0x485a('0x6')](_0x33d697/(0x3e8*0x3c*0x3c*0x18));var _0x466450=Math['floor'](_0x33d697%(0x3e8*0x3c*0x3c*0x18)/(0x3e8*0x3c*0x3c));var _0x75eeed=Math[_0x485a('0x6')](_0x33d697%(0x3e8*0x3c*0x3c)/(0x3e8*0x3c));var _0x407ea0=Math[_0x485a('0x6')](_0x33d697%(0x3e8*0x3c)/0x3e8);document[_0x485a('0x1')](_0x485a('0x3'))[_0x485a('0x0')]=_0x466450+'h\x20'+_0x75eeed+'m\x20'+_0x407ea0+'s';if(_0x33d697<0x0){clearInterval(x);document[_0x485a('0x1')](_0x485a('0x3'))[_0x485a('0x5')]();document[_0x485a('0x1')](_0x485a('0x8'))[_0x485a('0x2')][_0x485a('0x7')]='block';}},0x3e8);
+</script> 
+</body>
+</html>

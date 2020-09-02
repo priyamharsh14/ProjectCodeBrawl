@@ -1,0 +1,5 @@
+cbwebsite/db.sqlite3
+cbwebsite/cbwebsite/__pycache__
+cbwebsite/quiz/__pycache__
+cbwebsite/quiz/migrations/*
+!cbwebsite/quiz/migrations/__init__.py

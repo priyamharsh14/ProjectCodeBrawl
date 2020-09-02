@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <!-- Title Page-->
+    <title>CodeBrawl 2.0</title>
+
+    <!-- Icons font CSS-->
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'css/signup.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/materialize.css' %}" rel="stylesheet">
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/typeit.min.js' %}"></script>
+</head>
+<body>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <script>M.toast({html: "{{message}}", classes: 'red rounded', displayLength:10000});</script>
+        {% endif %}
+        {% if message.tags == 'success' %}
+            <script>M.toast({html: "{{message}}", classes: 'green rounded', displayLength:5000});</script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w680" style="padding: 12px;">
+            <div class="card card-4">
+                <div class="card-body">
+                    <h2 class="title"><strong>{{ request.user.username }}'s Result:</strong></h2>
+                    <h2 class="title" id="myID"></h2>
+                    <script type="text/javascript">
+                        var i;
+                        i = new TypeIt('#myID');
+                        {% if answer.0 == uanswer.0 %}
+                            i.type("Question 1").break().type("<strong>CORRECT (+25)</strong>").break().break();
+                        {% elif uanswer.0 == 'x' %}
+                            i.type("Question 1").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 1").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        {% if answer.1 == uanswer.1 %}
+                            i.type("Question 2").break().type("<strong>CORRECT (+25)</strong>").break().break();
+                        {% elif uanswer.1 == 'x' %}
+                            i.type("Question 2").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 2").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        {% if answer.2 == uanswer.2 %}
+                            i.type("Question 3").break().type("<strong>CORRECT (+25)</strong>").break().break();
+                        {% elif uanswer.2 == 'x' %}
+                            i.type("Question 3").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 3").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        {% if answer.3 == uanswer.3 %}
+                            i.type("Question 4").break().type("<strong>CORRECT (+25)</strong>").break().break();
+                        {% elif uanswer.3 == 'x' %}
+                            i.type("Question 4").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 4").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        {% if answer.4 == uanswer.4 %}
+                            i.type("Question 5").break().type("<strong>CORRECT (+25)</strong>").break().break();
+                        {% elif uanswer.4 == 'x' %}
+                            i.type("Question 5").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 5").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        {% if answer.5 == uanswer.5 %}
+                            i.type("Question 6").break().type("<strong>CORRECT (+50)</strong>").break().break();
+                        {% elif uanswer.5 == 'x' %}
+                            i.type("Question 6").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 6").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        {% if answer.6 == uanswer.6 %}
+                            i.type("Question 7").break().type("<strong>CORRECT (+50)</strong>").break().break();
+                        {% elif uanswer.6 == 'x' %}
+                            i.type("Question 7").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 7").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        {% if answer.7 == uanswer.7 %}
+                            i.type("Question 8").break().type("<strong>CORRECT (+50)</strong>").break().break();
+                        {% elif uanswer.7 == 'x' %}
+                            i.type("Question 8").break().type("<strong>NOT SUBMITTED</strong>").break().break();
+                        {% else %}
+                            i.type("Question 8").break().type("<strong>WRONG</strong>").break().break();
+                        {% endif %}
+                        i.type("Question 9 & Question 10 [both HARD level questions] have been evaluated and the score has been updated to the leaderboard. If you had submitted code for any of those questions, please check your mail inbox for your personal evaluation report.");
+                        i.go();
+                    </script>
+                    <h2 class="title">Total Score Obtained: {{ score }}</h2>
+                    <div class="p-t-15">
+                        <a href="/logout"><button class="btn btn--radius-2 btn--blue">Logout</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+    <script src="{% static 'vendor/datepicker/moment.min.js' %}"></script>
+    <script src="{% static 'vendor/datepicker/daterangepicker.js' %}"></script>
+
+    <!-- Main JS-->
+    <script src="{% static 'js/global.js' %}"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->

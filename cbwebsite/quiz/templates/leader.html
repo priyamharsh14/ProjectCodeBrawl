@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>CodeBrawl 2.0</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/leader.css' %}">
+	<link href="{% static 'css/materialize.css' %}" rel="stylesheet">
+    <script src="{% static 'js/materialize.js' %}"></script>
+</head>
+<body>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <script>M.toast({html: "{{message}}", classes: 'red rounded', displayLength:10000});</script>
+        {% endif %}
+        {% if message.tags == 'success' %}
+            <script>M.toast({html: "{{message}}", classes: 'green rounded', displayLength:5000});</script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100">
+					<table>
+						<thead>
+							<tr class="table100-head">
+								<th class="column1">RANK</th>
+								<th class="column2">USERNAME</th>
+								<th class="column3">SCORE</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for user in participants %}
+								<tr>
+									<td class="column1">{{ user.3 }}</td>
+									<td class="column2">{{ user.0 }} (Team {{ user.2 }})</td>
+									<td class="column3">{{ user.1 }}</td>
+								</tr>
+							{% endfor %}	
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>
