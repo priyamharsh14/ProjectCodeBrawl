@@ -1,5 +1,6 @@
 from django.db import models
 
+# This variable contains all the 10 questions along with the multiple choice answers
 qbank = {
 	'easy': {
 		'1': {
@@ -47,6 +48,7 @@ qbank = {
 	},
 }
 
+# This variable contains the answer key
 answer_key = ['b', 'a', 'd', 'c', 'c', 'd', 'a', 'd']
 
 class participants(models.Model):
